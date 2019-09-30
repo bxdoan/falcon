@@ -5,10 +5,8 @@ from sqlalchemy.orm import class_mapper
 from config import db
 
 class CustomersResource():
-
     def on_get(self, req, resp):
-        dbsession = db
-        customers = dbsession.query(Customer)\
+        customers = db.query(Customer)\
             .order_by(Customer.id.desc())\
             .all()
         resp.status = falcon.HTTP_200
@@ -18,4 +16,4 @@ class CustomersResource():
                     dob = row.dob.strftime('%Y-%m-%d')
                     ) for row in customers]
         resp.body = json.dumps(customers)
-        dbsession.close()
+        db.close()

@@ -7,4 +7,4 @@ class User(BaseModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(64))
     password = Column(String(64))
-    dob = Column(String(64))
+    dob = Column(Date)
