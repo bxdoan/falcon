@@ -10,5 +10,5 @@ api = application = falcon.API(
     middleware=[AuthMiddleware(exclude_routes=['/login'])])
 
 api.add_route('/login', Login())
-api.add_route('/register', UserRegistration())
+api.add_route('/registration', UserRegistration())
 api.add_route('/customer', CustomersResource())

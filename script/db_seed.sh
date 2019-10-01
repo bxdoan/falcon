@@ -43,7 +43,7 @@ function create_and_seed {
      # Insert some seeding data users
      echo "Insert some seeding data users"
      psql -d $psqldb -c "INSERT INTO users (username, password, dob) VALUES
-     		       ('doan', 'doan', '1/10/1990');"
+     		       ('doan', '$pbkdf2-sha256$29000$4rz3HuN8zxlDaC1lLAVASA$l9uzGvo1fwyO9xSIElk8OjvydIvFKCy3Vnd1KzfJWF8', '1/10/1990');"
 
     # Show customers table
     psql -d $psqldb -c "SELECT * FROM customer;"
