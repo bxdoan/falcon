@@ -12,3 +12,4 @@ api = application = falcon.API(
 api.add_route('/login', Login())
 api.add_route('/registration', UserRegistration())
 api.add_route('/customer', CustomersResource())
+api.add_route('/customer/{id:int}', CustomerSingleResource())
