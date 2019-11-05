@@ -1,8 +1,12 @@
 *.pyc
 *.pyman
 *.pyo
-__pycache__
-venv
-.idea
+**__pycache__/
+
+venv/
+.venv/
+
+.idea/
+
 config.ini
 .cache/
