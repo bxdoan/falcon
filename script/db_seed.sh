@@ -1,5 +1,8 @@
 #!/bin/bash
 
+shopt -s expand_aliases
+alias psql='docker exec -it gc_postgres psql -Upostgres'  # use psql from docker
+
 psqluser="postgres"     # Database username
 psqlpass="postgres"     # Database password
 psqldb="bxdoan_falcon"  # Database name
@@ -7,7 +10,7 @@ psqldb="bxdoan_falcon"  # Database name
 function create_and_seed {
     # Create database postgres
     echo "Create database postgres"
-    createdb $psqldb
+    psql -c "CREATE DATABASE $psqldb;"
 
     # Create the customers table
     echo "Create the customer table"
@@ -42,7 +45,7 @@ function create_and_seed {
      # Insert some seeding data users
      echo "Insert some seeding data users"
      psql -d $psqldb -c "INSERT INTO users (username, password, dob) VALUES
-     		       ('doan', '\$pbkdf2-sha256\$29000\$4rz3HuN8zxlDaC1lLAVASA\$l9uzGvo1fwyO9xSIElk8OjvydIvFKCy3Vnd1KzfJWF8', '1/10/1990');"
+     		                               ('doan', '\$pbkdf2-sha256\$29000\$4rz3HuN8zxlDaC1lLAVASA\$l9uzGvo1fwyO9xSIElk8OjvydIvFKCy3Vnd1KzfJWF8', '1/10/1990');"
 
     # Show customers table
     psql -d $psqldb -c "SELECT * FROM customer;"
@@ -53,13 +56,9 @@ die() {
     exit 1
 }
 
-if psql -lqt | cut -d \| -f 1 | grep -qw $psqluser; then
+if psql -Upostgres -lqt -P pager=off | cut -d'|' -f1 | grep -qw $psqluser; then  # if user exists
     # database exists
     echo "The database postgres exist. Drop it!"
-    dropdb $psqldb
-    if [ $? -ne 0 ]; then
-        die "Please drop this session and run script again!"
-    else
-        create_and_seed
-    fi
+    psql -c "DROP DATABASE if exists $psqldb;"
+    create_and_seed
 fi
