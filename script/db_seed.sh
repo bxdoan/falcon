@@ -1,9 +1,8 @@
 #!/bin/bash
-# Author: Doan Bui (bxdoan93@gmail.com)
-# htttps://github.com/bxdoan/python-api-assignment
-psqluser="postgres"   # Database username
-psqlpass="postgres"   # Database password
-psqldb="postgres"     # Database name
+
+psqluser="postgres"     # Database username
+psqlpass="postgres"     # Database password
+psqldb="bxdoan_falcon"  # Database name
 
 function create_and_seed {
     # Create database postgres
@@ -22,15 +21,15 @@ function create_and_seed {
     echo "Insert some seeding data customer"
     psql -d $psqldb -c "INSERT INTO customer (name, dob, updated_at) VALUES
         ('Ronaldo', '1/8/1991', '2019-08-22 04:05:01'),
-    		('Messi', '3/4/1992', '2019-08-22 04:05:02'),
-    		('Modric', '3/28/1993', '2019-08-22 04:05:03'),
-    		('Salah', '4/25/1994', '2019-08-22 04:05:04'),
-    		('Pogba', '1/8/1995', '2019-08-22 04:05:05'),
-    		('Kante', '1/22/1996', '2019-08-22 04:05:06'),
-    		('Neymar', '1/23/1997', '2019-08-22 04:05:07'),
-    		('Mbappe', '1/13/1998', '2019-08-22 04:05:08'),
-    		('Kroos', '1/11/1999', '2019-08-22 04:05:09'),
-    		('Oezil', '1/10/1990', '2019-08-22 04:05:010');"
+        ('Messi', '3/4/1992', '2019-08-22 04:05:02'),
+        ('Modric', '3/28/1993', '2019-08-22 04:05:03'),
+        ('Salah', '4/25/1994', '2019-08-22 04:05:04'),
+        ('Pogba', '1/8/1995', '2019-08-22 04:05:05'),
+        ('Kante', '1/22/1996', '2019-08-22 04:05:06'),
+        ('Neymar', '1/23/1997', '2019-08-22 04:05:07'),
+        ('Mbappe', '1/13/1998', '2019-08-22 04:05:08'),
+        ('Kroos', '1/11/1999', '2019-08-22 04:05:09'),
+        ('Oezil', '1/10/1990', '2019-08-22 04:05:010');"
 
     # Create the users table
     echo "Create the users table"
@@ -56,11 +55,11 @@ die() {
 
 if psql -lqt | cut -d \| -f 1 | grep -qw $psqluser; then
     # database exists
-    echo "The database postgres exist. Droped it!"
+    echo "The database postgres exist. Drop it!"
     dropdb $psqldb
     if [ $? -ne 0 ]; then
-      die "Please drop this session and run script again!"
+        die "Please drop this session and run script again!"
     else
-      create_and_seed
+        create_and_seed
     fi
 fi
