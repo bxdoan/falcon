@@ -36,13 +36,19 @@ class CustomerSingleResource():
         if not body:
             raise falcon.HTTPBadRequest('Empty request body',
                                         'A valid JSON document is required.')
+
         customer = db.query(Customer).filter(Customer.id == id).first()
-        if customer is None:
-            raise falcon.HTTPNotFound()
-        customer.name = body['name']
-        customer.dob = body['dob']
+        if customer is None: raise falcon.HTTPNotFound()
+
+        k='name'
+        if k in body: customer.name = body[k]
+
+        k='dob'
+        if k in body: customer.name = body[k]
+
         if len(db.dirty) > 0:
             db.commit()
+
         new_customer = dict(
             id = customer.id,
             name = customer.name,
